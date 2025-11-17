@@ -186,50 +186,50 @@ st.dataframe(
 
 st.header('Dashboard Estudiantil - Grupo 001')
 
-# === SECCIÓN DE FILTROS (DESPUÉS DE LAS TABLAS) ===
-st.subheader("Filtros Interactivos")
+# === SECCIÓN DE FILTROS (AL LADO IZQUIERDO) ===
+st.sidebar.subheader("Filtros Interactivos")
 
-# === FILTROS EN TRES COLUMNAS ===
-col_f1, col_f2, col_f3 = st.columns(3)
+# === FILTROS EN TRES COLUMNAS (DENTRO DEL SIDEBAR NO HAY COLUMNAS) ===
+filtro_rh = st.sidebar.multiselect(
+    "Tipo de Sangre (RH):",
+    options=sorted(df_limpio['RH'].dropna().unique())
+)
 
-with col_f1:
-    filtro_rh = st.multiselect(
-        "Tipo de Sangre (RH):",
-        options=sorted(df_limpio['RH'].dropna().unique())
-    )
+filtro_cabello = st.sidebar.multiselect(
+    "Color de Cabello:",
+    options=sorted(df_limpio['Color_Cabello'].dropna().unique())
+)
 
-with col_f2:
-    filtro_cabello = st.multiselect(
-        "Color de Cabello:",
-        options=sorted(df_limpio['Color_Cabello'].dropna().unique())
-    )
+filtro_barrio = st.sidebar.multiselect(
+    "Barrio de Residencia:",
+    options=sorted(df_limpio['Barrio_Residencia'].dropna().unique())
+)
 
-with col_f3:
-    filtro_barrio = st.multiselect(
-        "Barrio de Residencia:",
-        options=sorted(df_limpio['Barrio_Residencia'].dropna().unique())
-    )
+# === SLIDERS ===
+rango_edad = st.sidebar.slider(
+    "Rango de Edad:",
+    min_value=int(df_limpio["Edad"].min()),
+    max_value=int(df_limpio["Edad"].max()),
+    value=(int(df_limpio["Edad"].min()), int(df_limpio["Edad"].max())),
+    step=1
+)
 
-col_s1, col_s2 = st.columns(2)
+rango_estatura = st.sidebar.slider(
+    "Rango de Estatura (cm):",
+    min_value=int(df_limpio["Estatura_cm"].min()),
+    max_value=int(df_limpio["Estatura_cm"].max()),
+    value=(int(df_limpio["Estatura_cm"].min()), int(df_limpio["Estatura_cm"].max())),
+    step=1
+)
 
-with col_s1:
-    rango_edad = st.slider(
-        "Rango de Edad:",
-        min_value=int(df_limpio["Edad"].min()),
-        max_value=int(df_limpio["Edad"].max()),
-        value=(int(df_limpio["Edad"].min()), int(df_limpio["Edad"].max())),
-        step=1
-    )
+st.sidebar.markdown("### Integrantes del Equipo")
 
-with col_s2:
-    rango_estatura = st.slider(
-        "Rango de Estatura (cm):",
-        min_value=int(df_limpio["Estatura_cm"].min()),
-        max_value=int(df_limpio["Estatura_cm"].max()),
-        value=(int(df_limpio["Estatura_cm"].min()), int(df_limpio["Estatura_cm"].max())),
-        step=1
-    )
-
+st.sidebar.markdown(
+    "<div style='font-size:12px; line-height:1.2;'>"
+    + "<br>".join(integrantes_equipo) +
+    "</div>",
+    unsafe_allow_html=True
+)
 
 # Crear copias filtradas
 df_filtrado_todos = df_limpio.copy()
@@ -565,21 +565,21 @@ col1, col2, col3,col4, col5, col6, col7,col8 = st.columns(8)
 
 # === Estatura ===
 with col1:
-    st.markdown("### 📏 Estatura (cm)")
+    st.markdown("### Estatura (cm)")
     st.metric("Promedio", est_prom)
     st.metric("Mínima", est_min)
     st.metric("Máxima", est_max)
 
 # === Peso ===
 with col2:
-    st.markdown("### ⚖️ Peso (kg)")
+    st.markdown("### Peso (kg)")
     st.metric("Promedio", peso_prom)
     st.metric("Mínimo", peso_min)
     st.metric("Máximo", peso_max)
 
 # === IMC ===
 with col3:
-    st.markdown("### 💪 IMC")
+    st.markdown("### IMC")
     st.metric("Promedio", imc_prom)
     st.metric("Mínimo", round(imc_min, 2))
     st.metric("Máximo", round(imc_max, 2))
@@ -623,21 +623,21 @@ est_prom, peso_prom, imc_prom ,edad_prom = round(est_prom, 2), round(peso_prom, 
 
 # === Estatura ===
 with col5:
-    st.markdown("### 📏 Estatura (cm)")
+    st.markdown("### Estatura (cm)")
     st.metric("Promedio", est_prom)
     st.metric("Mínima", est_min)
     st.metric("Máxima", est_max)
 
 # === Peso ===
 with col6:
-    st.markdown("### ⚖️ Peso (kg)")
+    st.markdown("### Peso (kg)")
     st.metric("Promedio", peso_prom)
     st.metric("Mínimo", peso_min)
     st.metric("Máximo", peso_max)
 
 # === IMC ===
 with col7:
-    st.markdown("### 💪 IMC")
+    st.markdown("### IMC")
     st.metric("Promedio", imc_prom)
     st.metric("Mínimo", round(imc_min, 2))
     st.metric("Máximo", round(imc_max, 2))
